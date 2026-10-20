@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The Kingdom of Princess Yazhini · First Birthday</title>
+  <meta name="description" content="Princess B. Yazhini turns One! Join us on Tuesday, 3rd November 2026, 6 PM at Ramya Mahal, Maraimalai Nagar." />
+  <meta property="og:title" content="Princess B. Yazhini turns One 👑" />
+  <meta property="og:description" content="Tuesday · 3rd November 2026 · 6:00 PM · Ramya Mahal, Maraimalai Nagar" />
+  <meta name="theme-color" content="#f7c6d9" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Quicksand:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="is-locked">
+
+  <!-- ============ AMBIENT LAYERS ============ -->
+  <canvas id="magic-canvas" aria-hidden="true"></canvas>
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- ============ THE ROYAL GATES (intro) ============ -->
+  <div id="gate" role="dialog" aria-label="Enter the Kingdom">
+    <div class="gate-door gate-left"><div class="door-panel"></div><span class="door-knob"></span></div>
+    <div class="gate-door gate-right"><div class="door-panel"></div><span class="door-knob"></span></div>
+    <div class="gate-center">
+      <div class="gate-crown">👑</div>
+      <p class="gate-kicker">You are cordially invited into</p>
+      <h1 class="gate-title">The Kingdom of<br /><span>Yazhini</span></h1>
+      <button id="enter-btn" class="btn btn-gold">
+        <span>✨ Open the Royal Gates ✨</span>
+      </button>
+      <p class="gate-hint">🎵 Turn your sound on for a little lullaby</p>
+    </div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav id="royal-nav" aria-label="Sections">
+    <a href="#home" title="Home"><span>🏰</span><em>Home</em></a>
+    <a href="#kingdom" title="Her World"><span>🦋</span><em>Her World</em></a>
+    <a href="#journey" title="Her Journey"><span>📜</span><em>Journey</em></a>
+    <a href="#court" title="Royal Parents"><span>👑</span><em>Parents</em></a>
+    <a href="#cake" title="Make a Wish"><span>🎂</span><em>Cake</em></a>
+    <a href="#decree" title="Invitation"><span>💌</span><em>Invite</em></a>
+    <a href="#blessings" title="Blessings"><span>💖</span><em>Blessings</em></a>
+  </nav>
+  <button id="music-toggle" aria-label="Toggle music" title="Music">
+    <span class="note">♫</span>
+    <span class="bars"><i></i><i></i><i></i><i></i></span>
+  </button>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section id="home" class="hero">
+      <div class="sky">
+        <div class="moon"></div>
+        <div class="stars-layer"></div>
+        <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="cloud c4"></div>
+      </div>
+
+      <!-- Crystal palace -->
+      <svg class="castle parallax" data-depth="0.25" viewBox="0 0 800 420" aria-hidden="true">
+        <defs>
+          <linearGradient id="towerG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#fff7fb"/><stop offset="1" stop-color="#f6cfe0"/>
+          </linearGradient>
+          <linearGradient id="roofG" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#d8b4fe"/><stop offset=".5" stop-color="#f9a8d4"/><stop offset="1" stop-color="#c084fc"/>
+          </linearGradient>
+          <linearGradient id="doorG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#f59e0b"/>
+          </linearGradient>
+          <radialGradient id="glowG"><stop offset="0" stop-color="#fff6c2" stop-opacity=".9"/><stop offset="1" stop-color="#fff6c2" stop-opacity="0"/></radialGradient>
+        </defs>
+        <ellipse cx="400" cy="300" rx="330" ry="150" fill="url(#glowG)"/>
+        <!-- back towers -->
+        <g opacity=".75">
+          <rect x="150" y="190" width="60" height="200" fill="url(#towerG)"/>
+          <polygon points="140,192 180,90 220,192" fill="url(#roofG)"/>
+          <rect x="590" y="190" width="60" height="200" fill="url(#towerG)"/>
+          <polygon points="580,192 620,90 660,192" fill="url(#roofG)"/>
+        </g>
+        <!-- main hall -->
+        <rect x="230" y="220" width="340" height="180" rx="6" fill="url(#towerG)"/>
+        <g fill="#fbe3ee">
+          <rect x="230" y="206" width="24" height="18"/><rect x="270" y="206" width="24" height="18"/><rect x="310" y="206" width="24" height="18"/>
+          <rect x="466" y="206" width="24" height="18"/><rect x="506" y="206" width="24" height="18"/><rect x="546" y="206" width="24" height="18"/>
+        </g>
+        <!-- central tower -->
+        <rect x="340" y="120" width="120" height="280" fill="url(#towerG)"/>
+        <polygon points="326,124 400,0 474,124" fill="url(#roofG)"/>
+        <line x1="400" y1="0" x2="400" y2="-30" stroke="#d4a017" stroke-width="3"/>
+        <path class="flag" d="M400 -30 q20 6 36 0 q-8 10 0 18 q-16 6 -36 0z" fill="#f472b6"/>
+        <circle cx="400" cy="170" r="22" fill="#fef3c7" stroke="#e9b949" stroke-width="4"/>
+        <path d="M388 172 l6 -10 l6 8 l6 -8 l6 10 z" fill="#e9b949"/>
+        <!-- side towers -->
+        <rect x="250" y="160" width="70" height="240" fill="url(#towerG)"/>
+        <polygon points="240,164 285,60 330,164" fill="url(#roofG)"/>
+        <rect x="480" y="160" width="70" height="240" fill="url(#towerG)"/>
+        <polygon points="470,164 515,60 560,164" fill="url(#roofG)"/>
+        <!-- windows -->
+        <g class="windows" fill="#fde68a">
+          <path d="M272 220 v-18 a13 13 0 0 1 26 0 v18z"/>
+          <path d="M502 220 v-18 a13 13 0 0 1 26 0 v18z"/>
+          <path d="M372 260 v-20 a14 14 0 0 1 28 0 v20z" opacity=".0"/>
+          <path d="M272 300 v-18 a13 13 0 0 1 26 0 v18z"/>
+          <path d="M502 300 v-18 a13 13 0 0 1 26 0 v18z"/>
+          <path d="M168 260 v-16 a12 12 0 0 1 24 0 v16z"/>
+          <path d="M608 260 v-16 a12 12 0 0 1 24 0 v16z"/>
+        </g>
+        <!-- door -->
+        <path d="M362 400 v-80 a38 38 0 0 1 76 0 v80z" fill="url(#doorG)"/>
+        <path d="M400 400 v-118" stroke="#d97706" stroke-width="2"/>
+        <!-- flower arch -->
+        <g class="roses">
+          <circle cx="358" cy="330" r="7" fill="#f9a8d4"/><circle cx="364" cy="312" r="6" fill="#fbcfe8"/><circle cx="374" cy="296" r="7" fill="#f472b6"/>
+          <circle cx="388" cy="286" r="6" fill="#fbcfe8"/><circle cx="400" cy="282" r="7" fill="#f9a8d4"/><circle cx="412" cy="286" r="6" fill="#fbcfe8"/>
+          <circle cx="426" cy="296" r="7" fill="#f472b6"/><circle cx="436" cy="312" r="6" fill="#fbcfe8"/><circle cx="442" cy="330" r="7" fill="#f9a8d4"/>
+        </g>
+      </svg>
+
+      <div class="hero-content parallax" data-depth="-0.15">
+        <p class="hero-kicker"><span>✦</span> Hear ye, hear ye <span>✦</span></p>
+        <div class="hero-portrait" id="hero-portrait">
+          <div class="portrait-ring"></div>
+          <div class="portrait-img" data-photo="hero"><span class="ph">👶🏻</span></div>
+          <div class="portrait-crown">👑</div>
+        </div>
+        <h2 class="hero-name">
+          <span class="small-caps">Princess</span>
+          <span class="script shimmer" id="hero-name">B. Yazhini</span>
+          <span class="tamil">யாழினி</span>
+        </h2>
+        <p class="hero-turns">is turning <strong class="big-one">One</strong></p>
+        <div class="hero-chips">
+          <span class="chip">📅 Tue · 03 Nov 2026</span>
+          <span class="chip">🕕 6:00 PM</span>
+          <span class="chip">📍 Ramya Mahal</span>
+        </div>
+        <a href="#journey" class="scroll-cue" aria-label="Scroll down">
+          <span>Begin her story</span><i></i>
+        </a>
+      </div>
+
+      <div class="hill hill-back"></div>
+      <div class="hill hill-front"></div>
+    </section>
+
+    <!-- ============ COUNTDOWN ============ -->
+    <section id="countdown" class="countdown-sec">
+      <h3 class="eyebrow">The grand ball begins in</h3>
+      <div class="countdown" id="countdown-grid">
+        <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-lbl">Days</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">Hours</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-lbl">Minutes</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">Seconds</span></div>
+      </div>
+      <p class="cd-note" id="cd-note">Until the royal doors of Ramya Mahal swing open ✨</p>
+    </section>
+
+    <!-- ============ HER BEAUTIFUL WORLD ============ -->
+    <section id="kingdom" class="kingdom">
+      <div class="section-head reveal">
+        <span class="ornament">❦</span>
+        <h2 class="title">The Enchanted Princess Land</h2>
+        <p class="subtitle">A realm woven from morning dew &amp; golden starlight</p>
+      </div>
+
+      <div class="kingdom-grid">
+        <div class="storybook reveal">
+          <p class="dropcap">In a realm woven from morning dew, soft pastel dawns, and golden starlight, lies the fairy-tale kingdom created purely for <strong>Princess Yazhini</strong>.</p>
+          <p>It is a world where the air smells faintly of wild jasmine and sweet vanilla cake, where the skies drift between blush pink, powdery lavender, and warm cream. Blossoms here do not merely grow; they hum soft lullabies when the breeze glides by, echoing the ancient music of her name — the sacred, sweet tone of the <em>Yazh</em>.</p>
+          <p>Tiny golden butterflies trail stardust in her path, and baby songbirds rest atop archways woven from baby's-breath and pink climbing roses. A crystalline palace with mother-of-pearl spires glimmers gently, its doors swung wide open in celebration.</p>
+          <p class="quote">In Princess Yazhini's world, every corner is soft, bright, and brimming with wonder — a gentle sanctuary where every giggle turns into a beam of light.</p>
+        </div>
+
+        <!-- The magical Yazh (harp) -->
+        <div class="yazh-card reveal">
+          <h3>Play the Royal Yazh 🎶</h3>
+          <p class="muted">Her name sings like the ancient Tamil harp. Glide your finger or mouse across the strings!</p>
+          <div class="yazh" id="yazh">
+            <svg class="yazh-frame" viewBox="0 0 300 340" aria-hidden="true">
+              <defs>
+                <linearGradient id="yazhWood" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="0">
+                  <stop offset="0" stop-color="#f5d08a"/><stop offset=".5" stop-color="#e2a84b"/><stop offset="1" stop-color="#c7832a"/>
+                </linearGradient>
+              </defs>
+              <!-- yali-head neck curve -->
+              <path d="M40 320 C 20 220, 30 90, 90 40 C 130 8, 190 10, 230 30 C 262 46, 270 80, 250 96 C 236 108, 214 98, 214 80"
+                    fill="none" stroke="url(#yazhWood)" stroke-width="16" stroke-linecap="round"/>
+              <circle cx="232" cy="66" r="6" fill="#7a2e5c"/>
+              <path d="M40 320 L 270 320" stroke="url(#yazhWood)" stroke-width="18" stroke-linecap="round"/>
+              <path d="M270 320 C 290 260, 280 200, 250 150" fill="none" stroke="url(#yazhWood)" stroke-width="10" stroke-linecap="round"/>
+              <g fill="#f472b6"><circle cx="70" cy="320" r="5"/><circle cx="150" cy="320" r="5"/><circle cx="230" cy="320" r="5"/></g>
+            </svg>
+            <div class="strings" id="yazh-strings"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive garden -->
+      <div class="garden reveal" id="garden">
+        <p class="garden-hint">🌸 Tap the garden to bloom flowers &amp; wake the butterflies 🦋</p>
+      </div>
+    </section>
+
+    <!-- ============ THE ROYAL CHRONICLE ============ -->
+    <section id="journey" class="journey">
+      <div class="section-head reveal">
+        <span class="ornament">✦ ❦ ✦</span>
+        <h2 class="title">The Royal Chronicle</h2>
+        <p class="subtitle">Twelve golden frames · How tiny whispered dreams became a radiant little princess</p>
+      </div>
+
+      <div class="journey-progress" aria-hidden="true">
+        <div class="jp-track"><div class="jp-fill" id="jp-fill"></div></div>
+        <div class="jp-crawler" id="jp-crawler">👶🏻</div>
+      </div>
+
+      <div class="timeline" id="timeline"><!-- built by script.js --></div>
+    </section>
+
+    <!-- ============ THE ROYAL COURT ============ -->
+    <section id="court" class="court">
+      <div class="section-head reveal">
+        <span class="ornament">♛</span>
+        <h2 class="title">Her Royal Court</h2>
+        <p class="subtitle">At the center of her story stand two devoted guardians</p>
+      </div>
+
+      <div class="court-grid">
+        <article class="royal-card tilt reveal">
+          <div class="rc-frame"><div class="rc-photo" data-photo="father"><span class="ph">🤴🏻</span></div></div>
+          <div class="rc-crown">👑</div>
+          <h3><span class="rc-title">King</span> K. Bhoobalan</h3>
+          <p class="rc-role">Her Quiet Guardian &amp; Protector</p>
+          <p>Whose strong hands have learned the gentle art of cradling a feather-light daughter. In his eyes, she is the brightest spark, and every tired evening is washed away the moment she reaches her arms up toward him.</p>
+        </article>
+
+        <div class="court-heart reveal" aria-hidden="true">
+          <div class="heart-orb">💗</div>
+          <div class="baby-orb">👶🏻</div>
+          <p class="script">Our Little Princess</p>
+        </div>
+
+        <article class="royal-card tilt reveal">
+          <div class="rc-frame"><div class="rc-photo" data-photo="mother"><span class="ph">👸🏻</span></div></div>
+          <div class="rc-crown">👑</div>
+          <h3><span class="rc-title">Queen</span> V. Revathy</h3>
+          <p class="rc-role">The Heart of Her Sanctuary</p>
+          <p>Her voice is the princess's original comfort, her embrace the safe harbor where tears turn into peaceful dreams. Every braid, every dress, and every sweet milestone has been shaped by her quiet, unending grace.</p>
+        </article>
+      </div>
+      <div class="family-photo reveal" id="family-photo" hidden>
+        <div class="fp-frame"><img alt="The royal family" /></div>
+      </div>
+    </section>
+
+    <!-- ============ THE MAGIC CAKE ============ -->
+    <section id="cake" class="cake-sec">
+      <div class="section-head reveal">
+        <span class="ornament">🎂</span>
+        <h2 class="title">Make a Royal Wish</h2>
+        <p class="subtitle">Tap the candle to blow it out — or press 🎤 and blow into your microphone!</p>
+      </div>
+
+      <div class="cake-stage reveal">
+        <div class="balloons" id="balloons"></div>
+        <div class="cake" id="the-cake" role="button" tabindex="0" aria-label="Blow out the candle">
+          <div class="candle">
+            <div class="flame" id="flame"><div class="flame-inner"></div></div>
+            <div class="smoke" id="smoke"></div>
+            <span class="candle-one">1</span>
+          </div>
+          <div class="tier tier-top"><div class="drip"></div><div class="pearls"></div></div>
+          <div class="tier tier-mid"><div class="drip"></div><div class="pearls"></div><span class="cake-name">Yazhini</span></div>
+          <div class="tier tier-bot"><div class="drip"></div><div class="pearls"></div></div>
+          <div class="plate"></div>
+        </div>
+        <div class="cake-actions">
+          <button class="btn btn-pink" id="mic-btn">🎤 Blow with mic</button>
+          <button class="btn btn-ghost" id="relight-btn" hidden>🕯️ Light it again</button>
+        </div>
+        <p class="wish-msg" id="wish-msg" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ============ THE ROYAL DECREE ============ -->
+    <section id="decree" class="decree-sec">
+      <div class="section-head reveal">
+        <span class="ornament">📜</span>
+        <h2 class="title">The Royal Decree</h2>
+        <p class="subtitle">Break the royal wax seal to unveil your invitation</p>
+      </div>
+
+      <div class="envelope-wrap reveal">
+        <div class="envelope" id="envelope">
+          <div class="env-back"></div>
+          <div class="letter">
+            <div class="letter-inner">
+              <p class="decree-crown">👑</p>
+              <p class="decree-kicker">By order of King Bhoobalan &amp; Queen Revathy</p>
+              <h3 class="decree-title">Gather near, gather far</h3>
+              <p class="decree-text">to the royal grounds of <strong>Ramya Mahal, Maraimalai Nagar</strong>.</p>
+              <p class="decree-text">On <strong>Tuesday, the 3rd of November</strong>, as the clock chimes <strong>6:00 in the evening</strong>, the grand ball begins.</p>
+              <p class="decree-text">Come shower your blessings, share your laughter, and step into the sparkling world of our sweetest</p>
+              <p class="decree-name script">Princess B. Yazhini</p>
+              <p class="decree-text">as she turns <strong class="pink">One</strong>.</p>
+            </div>
+          </div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <button class="wax-seal" id="wax-seal" aria-label="Break the seal and open invitation"><span>Y</span></button>
+        </div>
+        <p class="seal-hint" id="seal-hint">👆 Tap the seal</p>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-card reveal">
+          <div class="dc-icon">📅</div>
+          <h4>When</h4>
+          <p>Tuesday<br /><strong>3rd November 2026</strong></p>
+        </div>
+        <div class="detail-card reveal">
+          <div class="dc-icon">🕕</div>
+          <h4>Time</h4>
+          <p>Evening<br /><strong>6:00 PM onwards</strong></p>
+        </div>
+        <div class="detail-card reveal">
+          <div class="dc-icon">🏰</div>
+          <h4>Where</h4>
+          <p>Ramya Mahal<br /><strong>Maraimalai Nagar</strong></p>
+        </div>
+      </div>
+
+      <div class="map-qr reveal">
+        <div class="qr-card">
+          <div class="qr-frame">
+            <img src="assets/location-qr.svg" alt="QR code for the Ramya Mahal location on Google Maps" width="220" height="220" />
+            <span class="qr-corner tl"></span><span class="qr-corner tr"></span><span class="qr-corner bl"></span><span class="qr-corner br"></span>
+          </div>
+          <p class="qr-caption">📱 Scan to find the way to the palace</p>
+        </div>
+        <div class="map-actions">
+          <h3 class="script">Find the Royal Grounds</h3>
+          <p>Ramya Mahal, Maraimalai Nagar, Chengalpattu District, Tamil Nadu</p>
+          <div class="btn-row">
+            <a class="btn btn-gold" href="https://maps.app.goo.gl/xtVJiD3oyzXinZCK8" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+            <button class="btn btn-pink" id="cal-btn">🗓️ Add to Calendar</button>
+            <a class="btn btn-ghost" id="gcal-btn" target="_blank" rel="noopener">Google Calendar</a>
+            <button class="btn btn-ghost" id="share-btn">💌 Share Invite</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BLESSINGS ============ -->
+    <section id="blessings" class="blessings-sec">
+      <div class="section-head reveal">
+        <span class="ornament">💖</span>
+        <h2 class="title">Send Your Blessings</h2>
+        <p class="subtitle">Release a wish lantern into the princess's sky</p>
+      </div>
+
+      <form class="wish-form reveal" id="wish-form" autocomplete="off">
+        <input type="text" id="wish-name" placeholder="Your name" maxlength="40" required />
+        <textarea id="wish-text" placeholder="Your blessing for little Yazhini…" maxlength="220" rows="3" required></textarea>
+        <button class="btn btn-gold" type="submit">🏮 Release my wish</button>
+      </form>
+
+      <div class="lantern-sky" id="lantern-sky"></div>
+      <div class="wish-wall" id="wish-wall"></div>
+    </section>
+  </main>
+
+  <footer class="royal-footer">
+    <p class="script">With all our love,</p>
+    <p class="footer-names">K. Bhoobalan &amp; V. Revathy</p>
+    <p class="footer-small">and the little princess who made us King &amp; Queen 👑</p>
+    <p class="footer-date">03 · 11 · 2025 &nbsp;✦&nbsp; 03 · 11 · 2026</p>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Chapter">
+    <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+    <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous chapter">‹</button>
+    <div class="lb-content">
+      <div class="lb-photo" id="lb-photo"></div>
+      <div class="lb-text">
+        <p class="lb-chapter" id="lb-chapter"></p>
+        <h3 id="lb-title"></h3>
+        <p class="lb-month" id="lb-month"></p>
+        <p id="lb-story"></p>
+        <div class="lb-dots" id="lb-dots"></div>
+      </div>
+    </div>
+    <button class="lb-nav lb-next" id="lb-next" aria-label="Next chapter">›</button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="photos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
