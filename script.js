@@ -358,6 +358,178 @@
   }
 
   /* ---------------------------------------------------------
+     FLORAL GATE — roses, garlands, hanging blossoms, fairy lights
+     --------------------------------------------------------- */
+  const ROSE_TINTS = {
+    pink: ["#ffe0ec", "#f58fbd", "#c2346f"],
+    blush: ["#fff4f8", "#f9bcd6", "#e2558f"],
+    lav: ["#f6f0ff", "#cfb2f7", "#8b5cf6"],
+    peach: ["#fff7ee", "#ffcaa8", "#ea8a6a"],
+    cream: ["#ffffff", "#fde9d6", "#e3b07e"],
+  };
+  const TINT_KEYS = Object.keys(ROSE_TINTS);
+  (function floralDefs() {
+    let d = "";
+    TINT_KEYS.forEach((k) => {
+      const [lt, md, dk] = ROSE_TINTS[k];
+      d += `<radialGradient id="rg-${k}" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="${dk}"/><stop offset=".35" stop-color="${md}"/><stop offset="1" stop-color="${lt}"/></radialGradient>`;
+      let petals = "";
+      for (let i = 0; i < 5; i++) petals += `<path transform="rotate(${i * 72 + 10})" d="M0 -4 C 22 -46, 54 -12, 33 17 C 21 33, -4 29, 0 -4Z" fill="url(#rg-${k})" stroke="${dk}" stroke-opacity=".22" stroke-width="1.2"/>`;
+      for (let i = 0; i < 5; i++) petals += `<path transform="rotate(${i * 72 + 46}) scale(.72)" d="M0 -4 C 22 -46, 54 -12, 33 17 C 21 33, -4 29, 0 -4Z" fill="${md}" stroke="${dk}" stroke-opacity=".25" stroke-width="1.2"/>`;
+      d += `<symbol id="rose-${k}" viewBox="-50 -50 100 100" overflow="visible">${petals}
+        <circle r="17" fill="${md}"/>
+        <path d="M-15 3 C -17 -14, 3 -21, 15 -10 C 4 -14, -9 -8, -7 6 Z" fill="${dk}" opacity=".55"/>
+        <path d="M14 -4 C 18 11, 4 20, -10 14 C 1 14, 11 8, 8 -3 Z" fill="${dk}" opacity=".5"/>
+        <path d="M-6 -4 C -2 -12, 9 -9, 8 0 C 5 -5, -1 -6, -3 1 Z" fill="${dk}" opacity=".7"/>
+        <circle r="3.5" fill="${dk}" opacity=".8"/>
+        <path d="M-24 -10 C -16 -26, 10 -30, 22 -16" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+      </symbol>`;
+    });
+    d += `<linearGradient id="leafG" x1="0" x2="1"><stop offset="0" stop-color="#5fae74"/><stop offset="1" stop-color="#a8e0b4"/></linearGradient>
+      <symbol id="leaf" viewBox="0 -14 50 28" overflow="visible"><path d="M0 0 C 10 -15, 34 -15, 50 0 C 34 15, 10 15, 0 0Z" fill="url(#leafG)"/><path d="M2 0 L 44 0" stroke="#3f8f57" stroke-width="1.2" opacity=".6"/></symbol>
+      <symbol id="blossom" viewBox="-12 -12 24 24" overflow="visible">
+        ${[0, 72, 144, 216, 288].map((a) => `<circle cx="${Math.cos((a * Math.PI) / 180) * 5.5}" cy="${Math.sin((a * Math.PI) / 180) * 5.5}" r="5" fill="#fff" stroke="#f9c6dc" stroke-width="1"/>`).join("")}
+        <circle r="2.8" fill="#f7c948"/></symbol>
+      <symbol id="blossom-pink" viewBox="-12 -12 24 24" overflow="visible">
+        ${[0, 72, 144, 216, 288].map((a) => `<circle cx="${Math.cos((a * Math.PI) / 180) * 5.5}" cy="${Math.sin((a * Math.PI) / 180) * 5.5}" r="5" fill="#ffd3e6" stroke="#f49ac1" stroke-width="1"/>`).join("")}
+        <circle r="2.8" fill="#fff6c8"/></symbol>
+      <filter id="fl-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+      <filter id="fl-shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#7a2e5c" flood-opacity=".25"/></filter>`;
+    const holder = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    holder.setAttribute("width", "0"); holder.setAttribute("height", "0");
+    holder.setAttribute("aria-hidden", "true");
+    holder.style.position = "absolute";
+    holder.innerHTML = `<defs>${d}</defs>`;
+    document.body.prepend(holder);
+  })();
+
+  const F = {
+    rose(x, y, size, tint, delay, rot = rand(0, 360)) {
+      return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot.toFixed(0)})"><use class="fl" href="#rose-${tint}" x="${-size / 2}" y="${-size / 2}" width="${size}" height="${size}" style="animation-delay:${delay.toFixed(2)}s"/></g>`;
+    },
+    leaf(x, y, len, angle, delay) {
+      const h = (len * 28) / 50;
+      return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${angle.toFixed(0)})"><use class="fl" href="#leaf" x="0" y="${-h / 2}" width="${len}" height="${h}" style="animation-delay:${delay.toFixed(2)}s"/></g>`;
+    },
+    blossom(x, y, size, delay, pinkish = Math.random() < 0.45) {
+      return `<use class="fl" href="#${pinkish ? "blossom-pink" : "blossom"}" x="${(x - size / 2).toFixed(1)}" y="${(y - size / 2).toFixed(1)}" width="${size}" height="${size}" style="animation-delay:${delay.toFixed(2)}s"/>`;
+    },
+    light(x, y, delay) {
+      return `<g class="light" style="animation-delay:${rand(0, 1.8).toFixed(2)}s"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="#fff1b0" filter="url(#fl-glow)"/><circle class="fl" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="#fffbe6" style="animation-delay:${delay.toFixed(2)}s"/></g>`;
+    },
+    bouquet(x, y, scale, baseDelay, fan = 0) {
+      let out = "";
+      for (let i = 0; i < 7; i++) out += F.leaf(x, y, rand(38, 60) * scale, fan + rand(-160, 160), baseDelay + 0.1);
+      const spots = [[0, 0, 1], [-0.55, 0.25, 0.75], [0.55, 0.25, 0.75], [-0.25, -0.5, 0.62], [0.3, -0.48, 0.6]];
+      spots.forEach(([dx, dy, sz], i) => {
+        out += F.rose(x + dx * 46 * scale, y + dy * 46 * scale, 62 * sz * scale, pick(TINT_KEYS), baseDelay + 0.15 + i * 0.08);
+      });
+      for (let i = 0; i < 6; i++) out += F.blossom(x + rand(-60, 60) * scale, y + rand(-50, 50) * scale, rand(12, 18) * scale, baseDelay + 0.5);
+      return out;
+    },
+  };
+
+  function drawFloralFrame() {
+    const svg = $("#floral-frame");
+    if (!svg) return;
+    const W = innerWidth, H = innerHeight, small = W < 640;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    let back = "", front = "";
+    const swags = W < 640 ? 2 : W < 1300 ? 3 : 4;
+    const sag = clamp(H * 0.11, 48, 120);
+    const sc = small ? 0.72 : 1;
+    const seg = W / swags;
+    // fairy-light wires (behind) + rose garlands
+    for (let s = 0; s < swags; s++) {
+      const x1 = s * seg, x2 = (s + 1) * seg, cx = (x1 + x2) / 2;
+      const P = (t, sg) => {
+        const y0 = -4, cy = y0 + sg * 2;
+        const u = 1 - t;
+        return { x: u * u * x1 + 2 * u * t * cx + t * t * x2, y: u * u * y0 + 2 * u * t * cy + t * t * y0,
+          a: (Math.atan2(2 * u * (cy - y0) + 2 * t * (y0 - cy), 2 * u * (cx - x1) + 2 * t * (x2 - cx)) * 180) / Math.PI };
+      };
+      const wireSag = sag * 1.35;
+      back += `<path d="M${x1} -4 Q${cx} ${-4 + wireSag * 2} ${x2} -4" fill="none" stroke="#d9b45a" stroke-width="1.2" opacity=".8"/>`;
+      for (let t = 0.06; t < 0.95; t += 0.075) { const p = P(t, wireSag); back += F.light(p.x, p.y, 1 + t); }
+      back += `<path class="vine" d="M${x1} -4 Q${cx} ${-4 + sag * 2} ${x2} -4" fill="none" stroke="#6fb985" stroke-width="3.5" stroke-linecap="round"/>`;
+      for (let t = 0.03; t < 0.98; t += 0.05) {
+        const p = P(t, sag), side = (Math.round(t * 20) % 2 ? 1 : -1);
+        front += F.leaf(p.x, p.y, rand(22, 34) * sc, p.a + side * rand(40, 75), 0.4 + t * 0.6);
+      }
+      for (let t = 0.1; t < 0.93; t += 0.105) {
+        const p = P(t, sag), mid = 1 - Math.abs(t - 0.5) * 1.6;
+        front += F.rose(p.x, p.y, (28 + mid * 26) * sc, pick(TINT_KEYS), 0.6 + t * 0.7);
+        const q = P(t + 0.05, sag);
+        front += F.blossom(q.x + rand(-6, 6), q.y + rand(4, 12), rand(11, 16) * sc, 0.9 + t * 0.6);
+      }
+    }
+    // joints: bouquets with hanging wisteria-like strands
+    for (let s = 0; s <= swags; s++) {
+      const x = s * seg;
+      if (s > 0 && s < swags) {
+        const len = H * rand(0.16, 0.3);
+        let strand = `<path d="M0 0 C 6 ${len * 0.3}, -6 ${len * 0.6}, 0 ${len}" fill="none" stroke="#7cc492" stroke-width="1.6"/>`;
+        for (let y = 18; y < len; y += 13) strand += F.blossom(Math.sin(y * 0.15) * 7, y, (16 - (y / len) * 6) * sc, 1.2 + y / len);
+        strand += F.rose(0, len + 6, 26 * sc, pick(TINT_KEYS), 1.9);
+        front += `<g transform="translate(${x} 4)"><g class="sway" style="animation-delay:${rand(0, 2).toFixed(2)}s">${strand}</g></g>`;
+      }
+      front += F.bouquet(x, 8, small ? 0.62 : 0.95, 0.2, 90);
+    }
+    // climbing side vines
+    [0, 1].forEach((side) => {
+      const xEdge = side ? W : 0, dir = side ? -1 : 1;
+      const top = H * 0.18;
+      let d = `M${xEdge} ${H}`;
+      const pts = [];
+      for (let y = H; y >= top; y -= 10) {
+        const x = xEdge + dir * (22 + Math.sin(y * 0.014) * 16) * (small ? 0.7 : 1);
+        pts.push({ x, y }); d += ` L${x.toFixed(1)} ${y}`;
+      }
+      back += `<path class="vine" d="${d}" fill="none" stroke="#6fb985" stroke-width="3" stroke-linecap="round"/>`;
+      pts.forEach((p, i) => {
+        const delay = 0.3 + (1 - p.y / H) * 1.2;
+        if (i % 3 === 0) front += F.leaf(p.x, p.y, rand(20, 32) * sc, (i % 6 ? -90 : 90) + dir * rand(-50, 50) - (side ? 180 : 0) * 0, delay);
+        if (i % 9 === 4) front += F.rose(p.x + dir * 4, p.y, rand(26, 40) * sc, pick(TINT_KEYS), delay + 0.2);
+        else if (i % 9 === 8) front += F.blossom(p.x + dir * 10, p.y, rand(12, 17) * sc, delay + 0.2);
+      });
+    });
+    // grand corner bouquets
+    front += F.bouquet(small ? 34 : 70, H - (small ? 30 : 55), small ? 0.95 : 1.6, 0.1, -45);
+    front += F.bouquet(W - (small ? 34 : 70), H - (small ? 30 : 55), small ? 0.95 : 1.6, 0.1, -135);
+    svg.innerHTML = `<g>${back}</g><g filter="url(#fl-shadow)">${front}</g>`;
+  }
+
+  function drawCardFlowers() {
+    const crest = $("#card-crest");
+    if (crest) {
+      let out = `<path class="vine" d="M20 104 Q200 -26 380 104" fill="none" stroke="#6fb985" stroke-width="3"/>`;
+      const P = (t) => { const u = 1 - t; return { x: u * u * 20 + 2 * u * t * 200 + t * t * 380, y: u * u * 104 + 2 * u * t * -26 + t * t * 104 }; };
+      for (let t = 0.02; t < 1; t += 0.06) { const p = P(t); out += F.leaf(p.x, p.y, rand(18, 26), rand(0, 360), 0.8 + t * 0.4); }
+      [0.08, 0.2, 0.33, 0.67, 0.8, 0.92].forEach((t, i) => {
+        const p = P(t), sz = 22 + (1 - Math.abs(t - 0.5) * 2) * 18;
+        out += F.rose(p.x, p.y, sz, TINT_KEYS[i % TINT_KEYS.length], 1 + Math.abs(t - 0.5));
+        const q = P(t + 0.06); out += F.blossom(q.x, q.y + 6, 13, 1.3);
+      });
+      out += F.rose(160, 30, 36, "blush", 1.05) + F.rose(240, 30, 36, "lav", 1.05) + F.rose(200, 24, 50, "pink", 0.95);
+      crest.innerHTML = `<g filter="url(#fl-shadow)">${out}</g>`;
+    }
+    $$(".card-bouquet").forEach((b) => {
+      let out = "";
+      for (let i = 0; i < 6; i++) out += F.leaf(60, 72, rand(26, 40), rand(-200, 20), 1.2);
+      out += F.rose(60, 70, 46, "pink", 1.3) + F.rose(32, 86, 32, "cream", 1.4) + F.rose(86, 90, 30, "lav", 1.45) + F.rose(48, 44, 26, "peach", 1.5);
+      for (let i = 0; i < 5; i++) out += F.blossom(rand(20, 100), rand(40, 105), rand(10, 14), 1.6);
+      b.innerHTML = `<g filter="url(#fl-shadow)">${out}</g>`;
+    });
+  }
+  drawFloralFrame();
+  drawCardFlowers();
+  let floralTimer;
+  addEventListener("resize", () => {
+    if ($("#gate").classList.contains("open")) return;
+    clearTimeout(floralTimer); floralTimer = setTimeout(drawFloralFrame, 200);
+  });
+
+  /* ---------------------------------------------------------
      GATE / ENTRANCE
      --------------------------------------------------------- */
   const gate = $("#gate");
@@ -369,7 +541,7 @@
     document.body.classList.add("entered");
     setTimeout(() => confettiCannons(), 500);
     setTimeout(() => Audio.startMusic(1), 1800);
-    setTimeout(() => gate.classList.add("gone"), 2300);
+    setTimeout(() => gate.classList.add("gone"), 3000);
   });
 
   $("#music-toggle").addEventListener("click", () => {
@@ -703,10 +875,18 @@
     }
   }
 
+  const guideSteps = $$("#cake-guide li"), tapHint = $("#tap-hint"), tapBtn = $("#tap-btn");
+  const micPanel = $("#mic-panel"), micStatus = $("#mic-status"), micSub = $("#mic-sub"), breathFill = $("#breath-fill");
+  function setStep(n) {
+    guideSteps.forEach((li, i) => { li.classList.toggle("done", i < n); li.classList.toggle("now", i === n); });
+  }
+  setStep(1);
+
   function blowOut() {
     if (blown) return;
     blown = true;
     flame.classList.add("out");
+    flame.style.rotate = ""; flame.style.scale = "";
     smoke.classList.remove("puff"); void smoke.offsetWidth; smoke.classList.add("puff");
     cake.classList.add("blown");
     const r = cake.getBoundingClientRect();
@@ -716,53 +896,81 @@
     Audio.restartWithBirthdaySong();
     launchBalloons(16);
     wishMsg.textContent = "Happy 1st Birthday, Princess Yazhini! 💖";
-    relight.hidden = false;
+    relight.hidden = false; tapBtn.hidden = true; micBtn.hidden = true;
+    setStep(2);
     stopMic();
-    toast("🎉 Your wish has been sent to the stars! Pop the balloons 🎈");
+    toast("🎉 Your wish has been sent to the stars! Now pop the balloons 🎈");
   }
   function relightCandle() {
     blown = false;
     flame.classList.remove("out"); cake.classList.remove("blown");
-    wishMsg.textContent = ""; relight.hidden = true;
+    wishMsg.textContent = ""; relight.hidden = true; tapBtn.hidden = false; micBtn.hidden = false;
+    setStep(1);
     Audio.chime();
   }
   cake.addEventListener("click", blowOut);
   cake.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); blowOut(); } });
+  tapBtn.addEventListener("click", blowOut);
   relight.addEventListener("click", relightCandle);
 
   function stopMic() {
     if (micRaf) cancelAnimationFrame(micRaf);
     if (micStream) micStream.getTracks().forEach((t) => t.stop());
     micStream = null; micRaf = null;
-    micBtn.textContent = "🎤 Blow with mic";
+    micBtn.textContent = "🎤 Use my microphone";
+    micPanel.hidden = true;
+    breathFill.style.width = "0%";
+    if (!blown) { flame.style.rotate = ""; flame.style.scale = ""; }
   }
   micBtn.addEventListener("click", async () => {
     if (micStream) { stopMic(); return; }
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { toast("Microphone isn't available here — just tap the candle! 🕯️"); return; }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      toast("The microphone needs a secure (https) link — just tap the flame instead! 👆");
+      return;
+    }
+    micPanel.hidden = false;
+    micStatus.innerHTML = "🎤 Please tap <b>Allow</b> when your browser asks for the microphone…";
+    micSub.textContent = "We only listen for your blow — nothing is recorded or saved.";
     try {
       if (blown) relightCandle();
       Audio.init();
-      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Noise suppression would filter out the very "whoosh" we want to hear, so turn it off.
+      micStream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+      });
+      await Audio.ctx.resume();
       const src = Audio.ctx.createMediaStreamSource(micStream);
-      const an = Audio.ctx.createAnalyser(); an.fftSize = 512;
-      src.connect(an);
+      const an = Audio.ctx.createAnalyser(); an.fftSize = 1024;
+      const mute = Audio.ctx.createGain(); mute.gain.value = 0;
+      src.connect(an); an.connect(mute); mute.connect(Audio.ctx.destination); // keeps the analyser running in every browser
       const data = new Uint8Array(an.fftSize);
-      let loud = 0;
-      micBtn.textContent = "🌬️ Blow now…";
+      micBtn.textContent = "✋ Stop microphone";
+      micStatus.innerHTML = "🌬️ Listening… now <b>blow at your screen</b> like blowing a real candle!";
+      micSub.textContent = "Keep blowing until the bar reaches the ⭐";
+      let noise = 0.01, power = 0, frames = 0;
+      const startedAt = performance.now();
       const listen = () => {
         an.getByteTimeDomainData(data);
         let sum = 0;
         for (let i = 0; i < data.length; i++) { const v = (data[i] - 128) / 128; sum += v * v; }
         const rms = Math.sqrt(sum / data.length);
-        flame.style.transform = `skewX(${clamp(rms * 120, 0, 30)}deg) scaleY(${1 - clamp(rms * 2, 0, .4)})`;
-        loud = rms > 0.12 ? loud + 1 : Math.max(0, loud - 1);
-        if (loud > 10) { flame.style.transform = ""; blowOut(); return; }
+        // learn the room's background level during the first half second
+        if (frames++ < 30) noise = Math.max(noise, rms * 1.3);
+        const strength = clamp((rms - noise) / 0.08, 0, 1.5);
+        power = strength > 0.25 ? power + strength * 0.045 : Math.max(0, power - 0.012);
+        breathFill.style.width = clamp(power, 0, 1) * 100 + "%";
+        flame.style.rotate = clamp(strength * 35, 0, 40) + "deg";
+        flame.style.scale = String(1 - clamp(strength * 0.35, 0, 0.5));
+        if (power >= 1) { blowOut(); return; }
+        if (performance.now() - startedAt > 12000 && power < 0.2) {
+          micSub.textContent = "Can't hear you yet 🙈 Blow a little closer to the mic — or just tap the flame 👆";
+        }
         micRaf = requestAnimationFrame(listen);
       };
       listen();
     } catch (err) {
       stopMic();
-      toast("No worries — tap the candle to blow it out! 🕯️");
+      toast("No worries — just tap the flame to blow it out! 👆🕯️");
     }
   });
 

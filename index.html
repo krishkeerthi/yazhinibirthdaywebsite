@@ -22,16 +22,29 @@
 
   <!-- ============ THE ROYAL GATES (intro) ============ -->
   <div id="gate" role="dialog" aria-label="Enter the Kingdom">
-    <div class="gate-door gate-left"><div class="door-panel"></div><span class="door-knob"></span></div>
-    <div class="gate-door gate-right"><div class="door-panel"></div><span class="door-knob"></span></div>
+    <div class="gate-light" aria-hidden="true"></div>
+    <div class="gate-door gate-left">
+      <div class="door-arch"><div class="door-medallion"><span>Y</span></div></div>
+      <span class="door-ring"></span>
+    </div>
+    <div class="gate-door gate-right">
+      <div class="door-arch"><div class="door-medallion"><span>Y</span></div></div>
+      <span class="door-ring"></span>
+    </div>
+    <!-- roses, garlands, hanging blossoms & fairy lights (drawn by script.js) -->
+    <svg id="floral-frame" class="floral-frame" aria-hidden="true"></svg>
     <div class="gate-center">
+      <svg class="card-crest" id="card-crest" viewBox="0 0 400 110" aria-hidden="true"></svg>
       <div class="gate-crown">👑</div>
       <p class="gate-kicker">You are cordially invited into</p>
       <h1 class="gate-title">The Kingdom of<br /><span>Yazhini</span></h1>
+      <p class="gate-sub">✦ Her First Birthday Celebration ✦</p>
       <button id="enter-btn" class="btn btn-gold">
-        <span>✨ Open the Royal Gates ✨</span>
+        <span>🌸 Open the Royal Gates 🌸</span>
       </button>
       <p class="gate-hint">🎵 Turn your sound on for a little lullaby</p>
+      <svg class="card-bouquet left" viewBox="0 0 120 120" aria-hidden="true"></svg>
+      <svg class="card-bouquet right" viewBox="0 0 120 120" aria-hidden="true"></svg>
     </div>
   </div>
 
@@ -262,14 +275,25 @@
       <div class="section-head reveal">
         <span class="ornament">🎂</span>
         <h2 class="title">Make a Royal Wish</h2>
-        <p class="subtitle">Tap the candle to blow it out — or press 🎤 and blow into your microphone!</p>
+        <p class="subtitle">Make a wish for the little princess, then blow out her very first candle</p>
       </div>
+
+      <ol class="cake-guide reveal" id="cake-guide">
+        <li><span class="step-n">1</span><span>Close your eyes &amp; <b>make a wish</b> 🙏</span></li>
+        <li><span class="step-n">2</span><span><b>Tap the flame</b> 👆 <em>or</em> press 🎤 and <b>blow</b> into your mic 🌬️</span></li>
+        <li><span class="step-n">3</span><span>Watch the magic happen &amp; <b>pop the balloons</b> 🎈</span></li>
+      </ol>
 
       <div class="cake-stage reveal">
         <div class="balloons" id="balloons"></div>
         <div class="cake" id="the-cake" role="button" tabindex="0" aria-label="Blow out the candle">
           <div class="candle">
+            <div class="flame-halo" id="flame-halo"></div>
             <div class="flame" id="flame"><div class="flame-inner"></div></div>
+            <div class="tap-hint" id="tap-hint" aria-hidden="true">
+              <span class="tap-bubble">Tap the flame!</span>
+              <span class="tap-hand">👈</span>
+            </div>
             <div class="smoke" id="smoke"></div>
             <span class="candle-one">1</span>
           </div>
@@ -279,8 +303,17 @@
           <div class="plate"></div>
         </div>
         <div class="cake-actions">
-          <button class="btn btn-pink" id="mic-btn">🎤 Blow with mic</button>
-          <button class="btn btn-ghost" id="relight-btn" hidden>🕯️ Light it again</button>
+          <button class="btn btn-gold" id="tap-btn">👆 Blow it out</button>
+          <button class="btn btn-pink" id="mic-btn">🎤 Use my microphone</button>
+          <button class="btn btn-ghost" id="relight-btn" hidden>🕯️ Light the candle again</button>
+        </div>
+        <div class="mic-panel" id="mic-panel" hidden>
+          <p class="mic-status" id="mic-status">🎤 Listening… now <b>blow gently</b> towards your microphone 🌬️</p>
+          <div class="breath-meter" aria-hidden="true">
+            <div class="breath-fill" id="breath-fill"></div>
+            <span class="breath-goal">⭐</span>
+          </div>
+          <p class="mic-sub" id="mic-sub">Keep blowing until the bar reaches the ⭐</p>
         </div>
         <p class="wish-msg" id="wish-msg" aria-live="polite"></p>
       </div>
