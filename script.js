@@ -342,16 +342,23 @@
      --------------------------------------------------------- */
   function setPhoto(el, url, alt) {
     if (!el || !url) return;
-    const img = new Image();
+    // the <img> must be in the page for lazy loading to start; the placeholder stays until it arrives
+    const img = document.createElement("img");
     img.alt = alt || "";
     img.loading = "lazy";
-    img.decoding = "async";
-    img.onload = () => { el.innerHTML = ""; el.appendChild(img); };
+    img.className = "photo-loading";
+    img.onload = () => {
+      [...el.children].forEach((c) => { if (c !== img) c.remove(); });
+      img.classList.remove("photo-loading");
+    };
     img.src = url;
+    el.appendChild(img);
   }
   setPhoto($('[data-photo="hero"]'), PHOTOS.hero, "Princess Yazhini");
   setPhoto($('[data-photo="father"]'), PHOTOS.father, "King K. Bhoobalan");
   setPhoto($('[data-photo="mother"]'), PHOTOS.mother, "Queen V. Revathy");
+  setPhoto($('[data-photo="brother"]'), PHOTOS.brother, "Her big brother");
+  if (PHOTOS.brotherName) $("#brother-name").textContent = PHOTOS.brotherName;
   if (PHOTOS.family) {
     const fp = $("#family-photo"); fp.hidden = false;
     $("img", fp).src = PHOTOS.family;
@@ -584,10 +591,11 @@
     }
     let mx = -999, my = -999;
     hero.addEventListener("pointermove", (e) => { const r = hero.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+    addEventListener("resize", () => butterflies.forEach((b) => { b.cw = b.ch = 0; }));
     (function flutter() {
       butterflies.forEach((bf) => {
         bf.t += 0.012 * bf.speed;
-        const cw = bf.container.clientWidth, ch = bf.container.clientHeight;
+        const cw = bf.cw || (bf.cw = bf.container.clientWidth), ch = bf.ch || (bf.ch = bf.container.clientHeight);
         // wander around a home point which slowly drifts
         bf.hx += Math.sin(bf.t * 0.7) * 0.8; bf.hy += Math.cos(bf.t * 0.5) * 0.5;
         const dx = mx - bf.hx, dy = my - bf.hy, dist = Math.hypot(dx, dy);
